@@ -23,6 +23,7 @@
 (use-package magit
   :commands magit-file-delete
   :defer 0.5
+  :ensure t
   :init
   (setq magit-auto-revert-mode nil)  ; we do this ourselves further down
   ;; Must be set early to prevent ~/.emacs.d/transient from being created
@@ -57,13 +58,23 @@
 	  (expand-file-name  "var/eln-cache/" user-emacs-directory))))
   )
 
+;; Winum power
 (use-package winum
   :defer 0.5
   :ensure t
   :custom
-  (winum-auto-setup-mode-line nil)
+  (winum-auto-setup-mode-line t)
   :config
-  (winum-mode))
+  (winum-mode)
+  :bind (
+         ;; Select the window with Meta
+         ("M-1" . winum-select-window-1)
+         ("M-2" . winum-select-window-2)
+         ("M-3" . winum-select-window-3)
+         ("M-4" . winum-select-window-4)
+         ("M-5" . winum-select-window-5)
+         ("M-6" . winum-select-window-6))
+  )
 
 ;; Mail reader ==> Optional, you have to configure all mu4e
 ;; (use-package mu4e

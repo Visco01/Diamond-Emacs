@@ -1,6 +1,6 @@
-;; Custom Emacs config for macOS
+;; Diamond Emacs config for macOS
 ;;
-;; MacPapo config started in 2022
+;; Config started in 2022
 
 ;; Hide clutter
 (when window-system
@@ -68,9 +68,9 @@
 ;; Winner for window managing
 (winner-mode 1)
 
-;; User name
-(setq user-full-name "Jacopo Costantini")
-(setq user-mail-address "891938@stud.unive.it")
+;; User name ==> Set your user name
+;; (setq user-full-name "Giampy Squance")
+;; (setq user-mail-address "giampy@tomar.com")
 
 ;; make electric-pair-mode work on more brackets
 (setq electric-pair-pairs

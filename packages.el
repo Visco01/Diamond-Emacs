@@ -1,4 +1,4 @@
-;; MacPapo Emacs packages config
+;; Diamond Emacs packages config
 ;;
 ;; Config started in 2022
 

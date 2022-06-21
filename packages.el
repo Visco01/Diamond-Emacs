@@ -109,14 +109,14 @@
      ((,(all-the-icons-octicon "octoface" :height 1.1 :v-adjust 0.0)
        "Homepage"
        "Browse homepage"
-       (lambda (&rest _) (browse-url "https://github.com/b-coimbra/.emacs.d")) nil "" " |")
+       (lambda (&rest _) (browse-url "https://github.com/MacPapo/Diamond-Emacs")) nil "" " |")
       (,(all-the-icons-faicon "refresh" :height 1.1 :v-adjust 0.0)
        "Update"
        "Update Megumacs"
        (lambda (&rest _) (update-packages)) warning "" " |")
       (,(all-the-icons-faicon "flag" :height 1.1 :v-adjust 0.0) nil
        "Report a BUG"
-       (lambda (&rest _) (browse-url "https://github.com/b-coimbra/.emacs.d/issues/new")) error "" ""))
+       (lambda (&rest _) (browse-url "https://github.com/MacPapo/Diamond-Emacs/issues/new")) error "" ""))
      ;; Empty line
      (("" "\n" "" nil nil "" ""))
      ;; Keybindings

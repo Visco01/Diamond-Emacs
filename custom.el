@@ -1,6 +1,6 @@
 ;; Diamond Emacs config for macOS
 ;;
-;; Config started in 2022
+;; MacPapo config started in 2022
 
 ;; Hide clutter
 (when window-system

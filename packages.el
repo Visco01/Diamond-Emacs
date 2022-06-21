@@ -1,6 +1,6 @@
 ;; Diamond Emacs packages config
 ;;
-;; Config started in 2022
+;; MacPapo config started in 2022
 
 ;; Update packages automatically
 (use-package auto-package-update

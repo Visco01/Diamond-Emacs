@@ -1,6 +1,6 @@
 ;; Diamond Emacs packages config
 ;;
-;; MacPapo config started in 2022
+;; Big Boss config started in 2022
 
 ;; Update packages automatically
 (use-package auto-package-update
@@ -46,38 +46,38 @@
   )
 
 (use-package winum
-  :ensure t
   :defer 1
+  :ensure t
   :custom
   (winum-auto-setup-mode-line nil)
   :config
   (winum-mode))
 
-;; Mail reader
-(use-package mu4e
-  :ensure nil
-  :defer 5 ; whait until 5 seconds after startup
-  :load-path "/opt/homebrew/Cellar/mu/1.6.11/share/emacs/site-lisp/mu4e/"
-  :config
-  (setq mu4e-update-interval 300)            ; Update interval (seconds)
-  (setq mu4e-index-cleanup t)                ; Cleanup after indexing
-  (setq mu4e-maildir "~/Documents/Mails")
-  (setq mu4e-attachment-dir "~/Downloads")
-  (setq mu4e-index-update-error-warning t)   ; Warnings during update
-  (setq mu4e-index-update-in-background t)   ; Background update
-  (setq mu4e-change-filenames-when-moving t) ; Needed for mbsync
-  (setq mu4e-get-mail-command "/opt/homebrew/bin/mbsync -a")
-  (setq mu4e-index-lazy-check nil)           ; Don't be lazy, index everything
-  (setq mu4e-confirm-quit nil)
-  (setq mu4e-headers-include-related t)
-  (setq mu4e-headers-skip-duplicates t)
-  (setq mu4e-sent-folder "/uni/sent")
-  (setq mu4e-trash-folder "/uni/trash")
-  (setq mu4e-drafts-folder "/uni/drafts")
-  (setq mu4e-maildir-shortcuts '(("/uni/inbox" . ?i)
-                                 ("/uni/archive". ?a)
-                                 ("/uni/sent" . ?s)))
-  )
+;; Mail reader ==> Optional, you have to configure all mu4e
+;; (use-package mu4e
+;;   :ensure nil
+;;   :defer 5 ; whait until 5 seconds after startup
+;;   :load-path "/opt/homebrew/Cellar/mu/1.6.11/share/emacs/site-lisp/mu4e/"
+;;   :config
+;;   (setq mu4e-update-interval 300)            ; Update interval (seconds)
+;;   (setq mu4e-index-cleanup t)                ; Cleanup after indexing
+;;   (setq mu4e-maildir "~/Documents/Mails")
+;;   (setq mu4e-attachment-dir "~/Downloads")
+;;   (setq mu4e-index-update-error-warning t)   ; Warnings during update
+;;   (setq mu4e-index-update-in-background t)   ; Background update
+;;   (setq mu4e-change-filenames-when-moving t) ; Needed for mbsync
+;;   (setq mu4e-get-mail-command "/opt/homebrew/bin/mbsync -a")
+;;   (setq mu4e-index-lazy-check nil)           ; Don't be lazy, index everything
+;;   (setq mu4e-confirm-quit nil)
+;;   (setq mu4e-headers-include-related t)
+;;   (setq mu4e-headers-skip-duplicates t)
+;;   (setq mu4e-sent-folder "/uni/sent")
+;;   (setq mu4e-trash-folder "/uni/trash")
+;;   (setq mu4e-drafts-folder "/uni/drafts")
+;;   (setq mu4e-maildir-shortcuts '(("/uni/inbox" . ?i)
+;;                                  ("/uni/archive". ?a)
+;;                                  ("/uni/sent" . ?s)))
+;;   )
 
 ;; Use All the ICONS
 (use-package all-the-icons
@@ -85,6 +85,7 @@
 
 ;; Prais the suuuunnnn!!!!
 (use-package solaire-mode
+  :defer 0.5
   :ensure t
   :hook (after-init . solaire-global-mode))
 
@@ -138,6 +139,7 @@
 
 ;; PDF Tools
 (use-package pdf-tools
-:ensure t
-:config   (pdf-tools-install)
-(setq-default pdf-view-display-size 'fit-page))
+  :defer 1
+  :ensure t
+  :config   (pdf-tools-install)
+  (setq-default pdf-view-display-size 'fit-page))

@@ -1,6 +1,6 @@
 ;; Diamond Emacs config for Mac
 ;;
-;; MacPapo config started in 2022
+;; Big Boss config started in 2022
 
 (require 'package)
 

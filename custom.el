@@ -69,8 +69,8 @@
 (winner-mode 1)
 
 ;; User name
-(setq user-full-name "Jacopo Costantini")
-(setq user-mail-address "891938@stud.unive.it")
+(setq user-full-name "Alvise Silvestri")
+(setq user-mail-address "890350@stud.unive.it")
 
 ;; make electric-pair-mode work on more brackets
 (setq electric-pair-pairs

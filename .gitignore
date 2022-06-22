@@ -13,3 +13,10 @@
 # macOS Stuff
 *.DS_Store
 .DS_Store
+
+# Diamond Dogs
+var/
+var/*
+elpa/
+elpa/*
+etc/packages.el

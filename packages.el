@@ -1,10 +1,10 @@
-;; Diamond Emacs packages config
+;; Diamond Emacs for Mac
 ;;
-;; Big Boss config started in 2022
+;; Diamond config started in 2022
 
 ;; Update packages automatically
 (use-package auto-package-update
-  :defer 0.5
+  :defer 0.2
   :ensure t
   :commands update-packages
   :custom
@@ -41,7 +41,8 @@
   (add-hook 'magit-popup-mode-hook #'hide-mode-line-mode)
 
   :bind (("C-x g" . magit-status)
-         ("C-x C-g" . magit-status)))
+         ("C-x C-g" . magit-status))
+  )
 
 ;; Declutter .emacs.d folder
 (use-package no-littering
@@ -49,13 +50,21 @@
   :demand t
   :config
   (setq auto-save-file-name-transforms
-	    `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
   (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
   (setq custom-file (no-littering-expand-etc-file-name "packages.el"))
   (when (fboundp 'startup-redirect-eln-cache)
     (startup-redirect-eln-cache
      (convert-standard-filename
-	  (expand-file-name  "var/eln-cache/" user-emacs-directory))))
+      (expand-file-name  "var/eln-cache/" user-emacs-directory))))
+  )
+
+(use-package org-auto-tangle
+  :defer t
+  :ensure t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t)
   )
 
 ;; Winum power
@@ -76,7 +85,8 @@
          ("M-6" . winum-select-window-6))
   )
 
-;; Mail reader ==> Optional, you have to configure all mu4e
+
+;; ;; Mail reader
 ;; (use-package mu4e
 ;;   :ensure nil
 ;;   :defer 5 ; whait until 5 seconds after startup
@@ -162,7 +172,32 @@
 
 ;; PDF Tools
 (use-package pdf-tools
+  :defer 5 ; whait until 5 seconds after startup
+  :ensure t
+  :magic ("%PDF" . pdf-view-mode)
+  :config   (pdf-tools-install)
+  (setq-default pdf-view-display-size 'fit-page)
+  ;; Enable hiDPI support, but at the cost of memory! See politza/pdf-tools#51
+  (setq pdf-view-use-scaling t
+        pdf-view-use-imagemagick nil)
+  )
+
+(use-package saveplace-pdf-view
+  :defer 2;
+  :ensure t
+  :after pdf-view)
+
+(use-package org-modern
+  :ensure t
+  :config
+  (global-org-modern-mode)
+  )
+
+(use-package olivetti
   :defer 1
   :ensure t
-  :config   (pdf-tools-install)
-  (setq-default pdf-view-display-size 'fit-page))
+  :bind ("C-M-z" . olivetti-mode)
+  )
+
+(use-package vterm
+  :ensure t)

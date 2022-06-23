@@ -1,3 +1,12 @@
+#+TITLE: Custom Emacs Enviroment
+#+PROPERTY: header-args :tangle ../../custom.el
+#+auto_tangle: t
+#+STARTUP: showeverything
+#+AUTHOR: Pietro Visconti, Jacopo Costantini, Alvise Silvestri
+
+* Diamond Emacs customization for Look and Feel
+
+#+BEGIN_SRC elisp
 ;; Diamond Emacs for Mac
 ;;
 ;; Diamond config started in 2022
@@ -7,7 +16,11 @@
   (scroll-bar-mode 0)   ; Disable the scroll bar
   (tool-bar-mode 0)     ; Disable the tool bar
   (tooltip-mode 0))     ; Disable the tooltips
+#+END_SRC
 
+* Better Default configuration
+
+#+BEGIN_SRC elisp
 ;; Better Default
 (setq-default
  ad-redefinition-action 'accept                   ; Silence warnings for redefinition
@@ -44,7 +57,10 @@
  use-default-font-for-symbols nil                 ; Do not use the frame font when rendering emojis
  frame-inhibit-implied-resize nil                ; Don't ask for confirmation when opening symlinked file
  )
+#+END_SRC
 
+* Caso
+#+BEGIN_SRC elisp
 (cd "~/")                                         ; Move to the user directory
 (delete-selection-mode 1)                         ; Replace region when inserting text
 (display-time-mode 1)                             ; Enable time in the mode-line
@@ -61,7 +77,10 @@
 (put 'downcase-region 'disabled nil)              ; Enable downcase-region
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
 (show-paren-mode 1)                               ; Highlight matching parenthesis
+#+END_SRC
 
+* Custom 
+#+BEGIN_SRC elisp
 ;; Resolve symlinks when opening files, so that any operations are conducted
 ;; from the file's true directory (like `find-file').
 (setq find-file-visit-truename t
@@ -163,95 +182,100 @@
 (setq ansi-color-for-comint-mode t)
 
 (setq org-hide-emphasis-markers t)
+#+END_SRC
 
-;; Fido
-(fido-vertical-mode 1)
+* Fido
+#+BEGIN_SRC elisp
+  ;; Fido
+  (fido-vertical-mode 1)
 
-;; Winner for window managing
-(winner-mode 1)
+  ;; Winner for window managing
+  (winner-mode 1)
 
-;; User name
-;; (setq user-full-name "John Doe")
-;; (setq user-mail-address "sample@domain.com")
+  ;; User name
+  ;; (setq user-full-name "John Doe")
+  ;; (setq user-mail-address "sample@domain.com")
 
-;; make electric-pair-mode work on more brackets
-(setq electric-pair-pairs
-      '(
-        (?\" . ?\")
-        (?\{ . ?\})))
+  ;; make electric-pair-mode work on more brackets
+  (setq electric-pair-pairs
+        '(
+          (?\" . ?\")
+          (?\{ . ?\})))
 
-;; UTF-8 as default encoding
-(set-default-coding-systems 'utf-8)
-(set-language-environment "UTF-8")
-(prefer-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
+  ;; UTF-8 as default encoding
+  (set-default-coding-systems 'utf-8)
+  (set-language-environment "UTF-8")
+  (prefer-coding-system 'utf-8)
+  (set-terminal-coding-system 'utf-8)
 
-;; highlight brackets if visible, else entire expression
-(setq show-paren-style 'mixed)
+  ;; highlight brackets if visible, else entire expression
+  (setq show-paren-style 'mixed)
 
-;; Modus theme customizations ;;
+  ;; Modus theme customizations ;;
 
-;; Modeline
-(setq modus-themes-mode-line '(borderless))
+  ;; Modeline
+  (setq modus-themes-mode-line '(borderless))
 
-;; Selection
-(setq modus-themes-region '(bg-only))
+  ;; Selection
+  (setq modus-themes-region '(bg-only))
 
-;; Completion
-(setq modus-themes-completions 'opinionated)
+  ;; Completion
+  (setq modus-themes-completions 'opinionated)
 
-;; Syntax
-(setq modus-themes-bold-constructs t)
-(setq modus-themes-italic-constructs t)
-(setq modus-themes-paren-match '(bold intense))
-(setq modus-themes-hl-line t)
-(setq modus-themes-prompts '(bold italic))
+  ;; Syntax
+  (setq modus-themes-bold-constructs t)
+  (setq modus-themes-italic-constructs t)
+  (setq modus-themes-paren-match '(bold intense))
+  (setq modus-themes-hl-line t)
+  (setq modus-themes-prompts '(bold italic))
 
-(setq modus-themes-completions
-      '((matches . (extrabold background intense))
-        (selection . (semibold accented intense))
-        (popup . (accented))))
+  (setq modus-themes-completions
+        '((matches . (extrabold background intense))
+          (selection . (semibold accented intense))
+          (popup . (accented))))
 
-;; Org
-(setq modus-themes-headings
-      '((1 . (rainbow overline background 1.4))
-        (2 . (rainbow background 1.3))
-        (3 . (rainbow bold 1.2))
-        (4 . (semilight 1.1))))
+  ;; Org
+  (setq modus-themes-headings
+        '((1 . (rainbow overline background 1.4))
+          (2 . (rainbow background 1.3))
+          (3 . (rainbow bold 1.2))
+          (4 . (semilight 1.1))))
 
-(setq modus-themes-org-blocks nil)
-(setq modus-themes-scale-headings t)
+  (setq modus-themes-org-blocks nil)
+  (setq modus-themes-scale-headings t)
 
-(load-theme 'modus-operandi t)
+  (load-theme 'modus-operandi t)
 
-;; Font attribute
-(set-face-attribute 'default nil
-                    :family "Roboto Mono"
-                    :weight 'light
-                    :height 140)
+  ;; Font attribute
+  (set-face-attribute 'default nil
+                      :family "Roboto Mono"
+                      :weight 'light
+                      :height 140)
 
-(set-face-attribute 'bold nil
-                    :family "Roboto Mono"
-                    :weight 'regular)
+  (set-face-attribute 'bold nil
+                      :family "Roboto Mono"
+                      :weight 'regular)
 
-(set-face-attribute 'italic nil
-                    :family "Victor Mono"
-                    :weight 'semilight
-                    :slant 'italic)
+  (set-face-attribute 'italic nil
+                      :family "Victor Mono"
+                      :weight 'semilight
+                      :slant 'italic)
 
-(set-fontset-font t 'unicode
-                    (font-spec :name "Inconsolata Light"
-                               :size 16) nil)
+  (set-fontset-font t 'unicode
+                      (font-spec :name "Inconsolata Light"
+                                 :size 16) nil)
 
-(set-fontset-font t '(#xe000 . #xffdd)
-                     (font-spec :name "RobotoMono Nerd Font"
-                                :size 12) nil)
+  (set-fontset-font t '(#xe000 . #xffdd)
+                       (font-spec :name "RobotoMono Nerd Font"
+                                  :size 12) nil)
 
-(defun eshell-other-window ()
-  "Open a `eshell' in a new window."
-  (interactive)
-  (let ((buf (eshell)))
-    (switch-to-buffer (other-buffer buf))
-    (switch-to-buffer-other-window buf)))
+  (defun eshell-other-window ()
+    "Open a `eshell' in a new window."
+    (interactive)
+    (let ((buf (eshell)))
+      (switch-to-buffer (other-buffer buf))
+      (switch-to-buffer-other-window buf)))
 
-(global-set-key (kbd "C-c e") (lambda () (interactive) (eshell-other-window)))
+  (global-set-key (kbd "C-c e") (lambda () (interactive) (eshell-other-window)))
+
+#+END_SRC

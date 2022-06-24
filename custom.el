@@ -2,13 +2,12 @@
 ;;
 ;; Diamond config started in 2022
 
-;; Hide clutter
 (when window-system
-  (scroll-bar-mode 0)   ; Disable the scroll bar
-  (tool-bar-mode 0)     ; Disable the tool bar
-  (tooltip-mode 0))     ; Disable the tooltips
+  (scroll-bar-mode 0)
+  (tool-bar-mode 0)
+  (tooltip-mode 0)
+  )
 
-;; Better Default
 (setq-default
  ad-redefinition-action 'accept                   ; Silence warnings for redefinition
  auto-window-vscroll nil                          ; Lighten vertical scroll
@@ -62,157 +61,92 @@
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
 (show-paren-mode 1)                               ; Highlight matching parenthesis
 
-;; Resolve symlinks when opening files, so that any operations are conducted
-;; from the file's true directory (like `find-file').
 (setq find-file-visit-truename t
       vc-follow-symlinks t)
 
-;; Disable the warning "X and Y are the same file". It's fine to ignore this
-;; warning as it will redirect you to the existing buffer anyway.
 (setq find-file-suppress-same-file-warnings t)
 
-;;
-;;; Clipboard / kill-ring
-
-;; Cull duplicates in the kill ring to reduce bloat and make the kill ring
-;; easier to peruse (with `counsel-yank-pop' or `helm-show-kill-ring'.
 (setq kill-do-not-save-duplicates t)
-
-;;
-;;; Extra file extensions to support
 
 (nconc
  auto-mode-alist
  '(("/LICENSE\\'" . text-mode)
    ("\\.log\\'" . text-mode)
    ("rc\\'" . conf-mode)
-   ("\\.\\(?:hex\\|nes\\)\\'" . hexl-mode)))
+   ("\\.\\(?:hex\\|nes\\)\\'" . hexl-mode))
+ )
 
-;; Don't prompt for confirmation when we create a new file or buffer (assume the
-;; user knows what they're doing).
 (setq confirm-nonexistent-file-or-buffer nil)
 
-;;
-;;; Scrolling
-
 (setq hscroll-margin 2
-      hscroll-step 1
-      ;; Emacs spends too much effort recentering the screen if you scroll the
-      ;; cursor more than N lines past window edges (where N is the settings of
-      ;; `scroll-conservatively'). This is especially slow in larger files
-      ;; during large-scale scrolling commands. If kept over 100, the window is
-      ;; never automatically recentered.
-      scroll-conservatively 101
-      scroll-margin 0
-      scroll-preserve-screen-position t
-      ;; Reduce cursor lag by a tiny bit by not auto-adjusting `window-vscroll'
-      ;; for tall lines.
-      auto-window-vscroll nil
-      ;; mouse
-      mouse-wheel-scroll-amount '(2 ((shift) . hscroll))
-      mouse-wheel-scroll-amount-horizontal 2)
+       hscroll-step 1
+       scroll-conservatively 101
+       scroll-margin 0
+       scroll-preserve-screen-position t
+       auto-window-vscroll nil
+       mouse-wheel-scroll-amount '(2 ((shift) . hscroll))
+       mouse-wheel-scroll-amount-horizontal 2
+       )
 
-;; Don't blink the paren matching the one at point, it's too distracting.
 (setq blink-matching-paren nil)
 
-;; Don't stretch the cursor to fit wide characters, it is disorienting,
-;; especially for tabs.
 (setq x-stretch-cursor nil)
 
-;; frame title
 (setq frame-title-format '("%b – Diamond Emacs")
       icon-title-format frame-title-format)
 
-;; Don't resize the frames in steps; it looks weird, especially in tiling window
-;; managers, where it can leave unseemly gaps.
 (setq frame-resize-pixelwise t)
 
-;; But do not resize windows pixelwise, this can cause crashes in some cases
-;; when resizing too many windows at once or rapidly.
 (setq window-resize-pixelwise nil)
 
-;;
-;;; Minibuffer
-
-;; Allow for minibuffer-ception. Sometimes we need another minibuffer command
-;; while we're in the minibuffer.
 (setq enable-recursive-minibuffers t)
 
-;; Show current key-sequence in minibuffer ala 'set showcmd' in vim. Any
-;; feedback after typing is better UX than no feedback at all.
 (setq echo-keystrokes 0.02)
 
-;; Expand the minibuffer to fit multi-line text displayed in the echo-area. This
-;; doesn't look too great with direnv, however...
 (setq resize-mini-windows 'grow-only)
 
-;;
-;;; Line numbers
-
-;; Explicitly define a width to reduce the cost of on-the-fly computation
 (setq-default display-line-numbers-width 3)
 
-;; Show absolute line numbers for narrowed regions to make it easier to tell the
-;; buffer is narrowed, and where you are, exactly.
 (setq-default display-line-numbers-widen t)
 
-;;
-;;; Built-in packages
-
-;;;###package ansi-color
 (setq ansi-color-for-comint-mode t)
-
 (setq org-hide-emphasis-markers t)
 
-;; Fido
-(fido-vertical-mode 1)
+(setq user-full-name "John Doe")
+(setq user-mail-address "sample@domain.com")
 
-;; Winner for window managing
-(winner-mode 1)
-
-;; User name
-;; (setq user-full-name "John Doe")
-;; (setq user-mail-address "sample@domain.com")
-
-;; make electric-pair-mode work on more brackets
 (setq electric-pair-pairs
       '(
         (?\" . ?\")
-        (?\{ . ?\})))
+        (?\{ . ?\}))
+      )
 
-;; UTF-8 as default encoding
 (set-default-coding-systems 'utf-8)
 (set-language-environment "UTF-8")
 (prefer-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 
-;; highlight brackets if visible, else entire expression
 (setq show-paren-style 'mixed)
 
-;; Modus theme customizations ;;
+(setq modus-themes-mode-line '(borderless)
+      )
 
-;; Modeline
-(setq modus-themes-mode-line '(borderless))
-
-;; Selection
 (setq modus-themes-region '(bg-only))
 
-;; Completion
 (setq modus-themes-completions 'opinionated)
 
-;; Syntax
+(setq modus-themes-completions
+        '((matches . (extrabold background intense))
+          (selection . (semibold accented intense))
+          (popup . (accented))))
+
 (setq modus-themes-bold-constructs t)
 (setq modus-themes-italic-constructs t)
 (setq modus-themes-paren-match '(bold intense))
 (setq modus-themes-hl-line t)
-(setq modus-themes-prompts '(bold italic))
+(setq modus-themes-prompts '(bold italic)
+      )
 
-(setq modus-themes-completions
-      '((matches . (extrabold background intense))
-        (selection . (semibold accented intense))
-        (popup . (accented))))
-
-;; Org
 (setq modus-themes-headings
       '((1 . (rainbow overline background 1.4))
         (2 . (rainbow background 1.3))
@@ -224,7 +158,6 @@
 
 (load-theme 'modus-operandi t)
 
-;; Font attribute
 (set-face-attribute 'default nil
                     :family "Roboto Mono"
                     :weight 'light
@@ -246,12 +179,3 @@
 (set-fontset-font t '(#xe000 . #xffdd)
                      (font-spec :name "RobotoMono Nerd Font"
                                 :size 12) nil)
-
-(defun eshell-other-window ()
-  "Open a `eshell' in a new window."
-  (interactive)
-  (let ((buf (eshell)))
-    (switch-to-buffer (other-buffer buf))
-    (switch-to-buffer-other-window buf)))
-
-(global-set-key (kbd "C-c e") (lambda () (interactive) (eshell-other-window)))

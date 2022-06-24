@@ -79,7 +79,8 @@
 (show-paren-mode 1)                               ; Highlight matching parenthesis
 #+END_SRC
 
-* Custom 
+* Custom
+
 #+BEGIN_SRC elisp
 ;; Resolve symlinks when opening files, so that any operations are conducted
 ;; from the file's true directory (like `find-file').

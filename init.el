@@ -1,6 +1,6 @@
-;; MacPapo Emacs config for Mac
+;; Diamond Emacs for Mac
 ;;
-;; Config started in 2022
+;; MacPapo config started in 2022
 
 (require 'package)
 
@@ -24,3 +24,6 @@
 
 (setq customisation "~/.emacs.d/custom.el")
 (load-file customisation)
+
+(setq modalities "~/.emacs.d/mode.el")
+(load-file modalities)

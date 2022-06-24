@@ -2,7 +2,6 @@
 ;;
 ;; MacPapo config started in 2022
 
-;; Update packages automatically
 (use-package auto-package-update
   :defer 0.2
   :ensure t
@@ -10,111 +9,84 @@
   :custom
   (auto-package-update-delete-old-versions t)
   :config
-  (auto-package-update-maybe))
+  (auto-package-update-maybe)
+  )
 
-;; Garbaege collection Hack
 (use-package gcmh
   :ensure t
   :demand t
   :config
-  (gcmh-mode 1))
-
-;; Magit for git support
-(use-package magit
-  :commands magit-file-delete
-  :defer 0.5
-  :ensure t
-  :init
-  (setq magit-auto-revert-mode nil)  ; we do this ourselves further down
-  ;; Must be set early to prevent ~/.emacs.d/transient from being created
-  :config
-  (setq transient-default-level 5
-        magit-diff-refine-hunk t ; show granular diffs in selected hunk
-        ;; Don't autosave repo buffers. This is too magical, and saving can
-        ;; trigger a bunch of unwanted side-effects, like save hooks and
-        ;; formatters. Trust the user to know what they're doing.
-        magit-save-repository-buffers nil
-        ;; Don't display parent/related refs in commit buffers; they are rarely
-        ;; helpful and only add to runtime costs.
-        magit-revision-insert-related-refs nil)
-
-  (add-hook 'magit-popup-mode-hook #'hide-mode-line-mode)
-
-  :bind (("C-x g" . magit-status)
-         ("C-x C-g" . magit-status))
+  (gcmh-mode 1)
   )
 
-;; Declutter .emacs.d folder
+(use-package org-auto-tangle
+  :defer t
+  :ensure t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t)
+  )
+
 (use-package no-littering
   :ensure t
   :demand t
   :config
   (setq auto-save-file-name-transforms
-	    `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
   (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
   (setq custom-file (no-littering-expand-etc-file-name "packages.el"))
   (when (fboundp 'startup-redirect-eln-cache)
     (startup-redirect-eln-cache
      (convert-standard-filename
-	  (expand-file-name  "var/eln-cache/" user-emacs-directory))))
+      (expand-file-name  "var/eln-cache/" user-emacs-directory))))
   )
 
-;; Winum power
-(use-package winum
-  :defer 0.5
+(use-package vertico
   :ensure t
-  :custom
-  (winum-auto-setup-mode-line t)
-  :config
-  (winum-mode)
-  :bind (
-         ;; Select the window with Meta
-         ("M-1" . winum-select-window-1)
-         ("M-2" . winum-select-window-2)
-         ("M-3" . winum-select-window-3)
-         ("M-4" . winum-select-window-4)
-         ("M-5" . winum-select-window-5)
-         ("M-6" . winum-select-window-6))
+  :demand t
+  :init
+  (vertico-mode)
+
+  ;; Different scroll margin
+  (setq vertico-scroll-margin 0)
+
+  ;; Show more candidates
+  ;; (setq vertico-count 20)
+
+  ;; Grow and shrink the Vertico minibuffer
+  ;; (setq vertico-resize t)
+
+  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+  (setq vertico-cycle t)
   )
 
-
-;; Mail reader
-(use-package mu4e
-  :ensure nil
-  :defer 5 ; whait until 5 seconds after startup
-  :load-path "/opt/homebrew/Cellar/mu/1.6.11/share/emacs/site-lisp/mu4e/"
-  :config
-  (setq mu4e-update-interval 300)            ; Update interval (seconds)
-  (setq mu4e-index-cleanup t)                ; Cleanup after indexing
-  (setq mu4e-maildir "~/Documents/Mails")
-  (setq mu4e-attachment-dir "~/Downloads")
-  (setq mu4e-index-update-error-warning t)   ; Warnings during update
-  (setq mu4e-index-update-in-background t)   ; Background update
-  (setq mu4e-change-filenames-when-moving t) ; Needed for mbsync
-  (setq mu4e-get-mail-command "/opt/homebrew/bin/mbsync -a")
-  (setq mu4e-index-lazy-check nil)           ; Don't be lazy, index everything
-  (setq mu4e-confirm-quit nil)
-  (setq mu4e-headers-include-related t)
-  (setq mu4e-headers-skip-duplicates t)
-  (setq mu4e-sent-folder "/uni/sent")
-  (setq mu4e-trash-folder "/uni/trash")
-  (setq mu4e-drafts-folder "/uni/drafts")
-  (setq mu4e-maildir-shortcuts '(("/uni/inbox" . ?i)
-                                 ("/uni/archive". ?a)
-                                 ("/uni/sent" . ?s)))
+(use-package savehist
+  :ensure t
+  :init
+  (savehist-mode)
   )
 
-;; Use All the ICONS
 (use-package all-the-icons
-  :ensure t)
+  :ensure t
+  )
 
-;; Prais the suuuunnnn!!!!
+(use-package all-the-icons-dired
+  :ensure t
+  :defer t
+  :hook
+  (dired-mode . all-the-icons-dired-mode)
+  )
+
+(use-package all-the-icons-completion
+  :ensure t
+  )
+
 (use-package solaire-mode
   :defer 0.5
   :ensure t
-  :hook (after-init . solaire-global-mode))
+  :hook (after-init . solaire-global-mode)
+  )
 
-;; Custom Dashboard
 (use-package dashboard
   :ensure t
   :demand t
@@ -122,7 +94,7 @@
   (add-hook 'dashboard-mode-hook (lambda () (setq show-trailing-whitespace nil)))
   :custom
   (dashboard-banner-logo-title "[D I A M O N D  E M A C S]")
-  (dashboard-startup-banner "~/.emacs.d/etc/banner/diamond_dogs.png")
+  (dashboard-startup-banner "~/.emacs.d/etc/banner/gitCat.png")
   (dashboard-footer-messages '("Kept you waiting huh!"))
   (dashboard-footer-icon (all-the-icons-wicon "meteor" :height 1.1 :v-adjust -0.05 :face 'font-lock-keyword-face))
   (dashboard-center-content t)
@@ -152,6 +124,7 @@
      ;; ((,(all-the-icons-octicon "file-directory" :height 1.0 :v-adjust -0.1)
      ;;   " Open project" nil
      ;;   (lambda (&rest _) (counsel-projectile-switch-project)) nil "" "         SPC p p"))
+
      ((,(all-the-icons-octicon "three-bars" :height 1.1 :v-adjust -0.1)
        " File explorer" nil
        (lambda (&rest _) (counsel-projectile-switch-project)) nil "" "           C-x d"))
@@ -160,14 +133,8 @@
        (lambda (&rest _) (open-config-file)) nil "" "        C-f C-P"))
      ))
   :config
-  (dashboard-setup-startup-hook))
-
-;; PDF Tools
-(use-package pdf-tools
-  :defer 5 ; whait until 5 seconds after startup
-  :ensure t
-  :config   (pdf-tools-install)
-  (setq-default pdf-view-display-size 'fit-page))
+  (dashboard-setup-startup-hook)
+  )
 
 ;; Treemacs tool
 (use-package treemacs
@@ -192,7 +159,7 @@
           treemacs-find-workspace-method           'find-for-file-or-pick-first
           treemacs-git-command-pipe                ""
           treemacs-goto-tag-strategy               'refetch-index
-          treemacs-header-scroll-indicators        '(nil . "^^^^^^")'
+          treemacs-header-scroll-indicators        '(nil . "^^^^^^")
           treemacs-hide-dot-git-directory          t
           treemacs-indentation                     2
           treemacs-indentation-string              " "
@@ -266,14 +233,6 @@
   :after (treemacs projectile)
   :ensure t)
 
-(use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
-
-(use-package treemacs-magit
-  :after (treemacs magit)
-  :ensure t)
-
 (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
   :ensure t
@@ -283,3 +242,142 @@
   :after (treemacs)
   :ensure t
   :config (treemacs-set-scope-type 'Tabs))
+
+(use-package winum
+  :defer 0.5
+  :ensure t
+  :custom
+  (winum-auto-setup-mode-line t)
+  :config
+  (winum-mode)
+  :bind (
+         ;; Select the window with Meta
+         ("M-1" . winum-select-window-1)
+         ("M-2" . winum-select-window-2)
+         ("M-3" . winum-select-window-3)
+         ("M-4" . winum-select-window-4)
+         ("M-5" . winum-select-window-5)
+         ("M-6" . winum-select-window-6))
+  )
+
+(use-package magit
+  :commands magit-file-delete
+  :defer 0.5
+  :ensure t
+  :init
+  (setq magit-auto-revert-mode nil)  ; we do this ourselves further down
+  ;; Must be set early to prevent ~/.emacs.d/transient from being created
+  :config
+  (setq transient-default-level 5
+        magit-diff-refine-hunk t ; show granular diffs in selected hunk
+        ;; Don't autosave repo buffers. This is too magical, and saving can
+        ;; trigger a bunch of unwanted side-effects, like save hooks and
+        ;; formatters. Trust the user to know what they're doing.
+        magit-save-repository-buffers nil
+        ;; Don't display parent/related refs in commit buffers; they are rarely
+        ;; helpful and only add to runtime costs.
+        magit-revision-insert-related-refs nil)
+
+  (add-hook 'magit-popup-mode-hook #'hide-mode-line-mode)
+
+  :bind (("C-x g" . magit-status)
+         ("C-x C-g" . magit-status))
+  )
+
+(use-package org-modern
+  :ensure t
+  :config
+  (global-org-modern-mode)
+  )
+
+(use-package olivetti
+  :defer 1
+  :ensure t
+  :bind ("C-M-z" . olivetti-mode)
+  )
+
+(use-package vterm
+  :ensure t)
+
+(use-package vterm-toggle
+  :ensure t
+  :bind
+  ("C-c v" . vterm-toggle)
+  )
+
+(use-package eshell
+  :ensure t
+  :defer t
+  :hook
+  ;; (eshell-load . (lambda ()
+  ;;                       (eshell-git-prompt-use-theme 'multiline2)))
+  (eshell-mode . (lambda ()
+                   (add-to-list 'eshell-visual-commands "rclone")
+                   (add-to-list 'eshell-visual-commands "ssh")
+                   (add-to-list 'eshell-visual-commands "tail")
+                   (add-to-list 'eshell-visual-commands "top")
+                   (eshell/alias "ff" "find-file $1")
+                   (eshell/alias "emacs" "find-file $1")
+                   (eshell/alias "untar" "tar -zxvf")
+                   (eshell/alias "cpv" "rsync -ah --info=progress2")
+                   (eshell/alias "ll" "ls -Alh")))
+  :custom
+  (eshell-error-if-no-glob t)
+  (eshell-hist-ignoredups t)
+  (eshell-save-history-on-exit t)
+  (eshell-destroy-buffer-when-process-dies t)
+  :config
+  (setenv "PAGER" "cat")
+  )
+
+(use-package eshell-toggle
+    :defer t
+    :ensure t
+    :custom
+    (eshell-toggle-size-fraction 3)
+    (eshell-toggle-run-command nil)
+    (eshell-toggle-init-function #'eshell-toggle-init-eshell)
+    (eshell-toggle-window-side 'right)
+    :bind
+    ("C-c e" . eshell-toggle)
+    )
+
+(use-package mu4e
+  :ensure nil
+  :defer 5
+  :load-path "/opt/homebrew/Cellar/mu/1.6.11/share/emacs/site-lisp/mu4e/"
+  :config
+  (setq mu4e-update-interval 300)            ; Update interval (seconds)
+  (setq mu4e-index-cleanup t)                ; Cleanup after indexing
+  (setq mu4e-maildir "~/Documents/Mails")
+  (setq mu4e-attachment-dir "~/Downloads")
+  (setq mu4e-index-update-error-warning t)   ; Warnings during update
+  (setq mu4e-index-update-in-background t)   ; Background update
+  (setq mu4e-change-filenames-when-moving t) ; Needed for mbsync
+  (setq mu4e-get-mail-command "/opt/homebrew/bin/mbsync -a")
+  (setq mu4e-index-lazy-check nil)           ; Don't be lazy, index everything
+  (setq mu4e-confirm-quit nil)
+  (setq mu4e-headers-include-related t)
+  (setq mu4e-headers-skip-duplicates t)
+  (setq mu4e-sent-folder "/uni/sent")
+  (setq mu4e-trash-folder "/uni/trash")
+  (setq mu4e-drafts-folder "/uni/drafts")
+  (setq mu4e-maildir-shortcuts '(("/uni/inbox" . ?i)
+                                 ("/uni/archive". ?a)
+                                 ("/uni/sent" . ?s)))
+  )
+
+(use-package pdf-tools
+  :defer 5
+  :ensure t
+  :magic ("%PDF" . pdf-view-mode)
+  :config   (pdf-tools-install)
+  (setq-default pdf-view-display-size 'fit-page)
+  (setq pdf-view-use-scaling t
+        pdf-view-use-imagemagick nil)
+  )
+
+(use-package saveplace-pdf-view
+  :defer 2
+  :ensure t
+  :after pdf-view)

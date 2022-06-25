@@ -1,6 +1,7 @@
+
 ;; Diamond Emacs for Mac
 ;;
-;; MacPapo config started in 2022
+;; Diamond config started in 2022
 
 (require 'package)
 
@@ -27,3 +28,4 @@
 
 (setq modalities "~/.emacs.d/mode.el")
 (load-file modalities)
+

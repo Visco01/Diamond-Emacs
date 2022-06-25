@@ -41,23 +41,23 @@
       (expand-file-name  "var/eln-cache/" user-emacs-directory))))
   )
 
-(use-package vertico
+(use-package helm
   :ensure t
   :demand t
-  :init
-  (vertico-mode)
+  :bind (
+         ("M-x" . helm-M-x)
+         ("M-y" . helm-show-kill-ring)
+         ("C-x C-f" . helm-find-files)
+         )
+  :config
+  (helm-ff-icon-mode 1)
+  (helm-mode 1)
+  )
 
-  ;; Different scroll margin
-  (setq vertico-scroll-margin 0)
-
-  ;; Show more candidates
-  ;; (setq vertico-count 20)
-
-  ;; Grow and shrink the Vertico minibuffer
-  ;; (setq vertico-resize t)
-
-  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  (setq vertico-cycle t)
+(use-package helm-descbinds
+  :ensure t
+  :config
+  (helm-descbinds-mode)
   )
 
 (use-package savehist
@@ -78,51 +78,46 @@
 
 (use-package dashboard
   :ensure t
-  :demand t
   :init
   (add-hook 'dashboard-mode-hook (lambda () (setq show-trailing-whitespace nil)))
-  :custom
-  (dashboard-banner-logo-title "[D I A M O N D  E M A C S]")
-  (dashboard-startup-banner "~/.emacs.d/etc/banner/diamond_dogs.png")
-  (dashboard-footer-messages '("Kept you waiting huh!"))
-  (dashboard-footer-icon (all-the-icons-wicon "meteor" :height 1.1 :v-adjust -0.05 :face 'font-lock-keyword-face))
-  (dashboard-center-content t)
-  (dashboard-set-heading-icons t)
-  (dashboard-set-file-icons t)
-  (dashboard-set-navigator t)
-  (dashboard-navigator-buttons
-   `(
-     ;; Links
-     ((,(all-the-icons-octicon "octoface" :height 1.1 :v-adjust 0.0)
-       "Homepage"
-       "Browse homepage"
-       (lambda (&rest _) (browse-url "https://github.com/MacPapo/Diamond-Emacs")) nil "" " |")
-      (,(all-the-icons-faicon "refresh" :height 1.1 :v-adjust 0.0)
-       "Update"
-       "Update Megumacs"
-       (lambda (&rest _) (update-packages)) warning "" " |")
-      (,(all-the-icons-faicon "flag" :height 1.1 :v-adjust 0.0) nil
-       "Report a BUG"
-       (lambda (&rest _) (browse-url "https://github.com/MacPapo/Diamond-Emacs/issues/new")) error "" ""))
-     ;; Empty line
-     (("" "\n" "" nil nil "" ""))
-     ;; Keybindings
-     ((,(all-the-icons-octicon "search" :height 0.9 :v-adjust -0.1)
-       " Find file" nil
-       (lambda (&rest _) (counsel-find-file)) nil "" "            C-x C-f"))
-     ;; ((,(all-the-icons-octicon "file-directory" :height 1.0 :v-adjust -0.1)
-     ;;   " Open project" nil
-     ;;   (lambda (&rest _) (counsel-projectile-switch-project)) nil "" "         SPC p p"))
+  (progn
+    (setq dashboard-items '((recents . 8)
+                            (bookmarks . 5)))
+    (setq dashboard-center-content t)
+    (setq dashboard-set-init-info t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-startup-banner "~/.emacs.d/etc/banner/diamond_dogs.png")
+    (setq dashboard-banner-logo-title "[ D I A M O N D   E M A C S ]")
+    (setq dashboard-set-navigator t)
 
-     ((,(all-the-icons-octicon "three-bars" :height 1.1 :v-adjust -0.1)
-       " File explorer" nil
-       (lambda (&rest _) (counsel-projectile-switch-project)) nil "" "           C-x d"))
-     ((,(all-the-icons-octicon "settings" :height 0.9 :v-adjust -0.1)
-       " Open settings" nil
-       (lambda (&rest _) (open-config-file)) nil "" "        C-f C-P"))
-     ))
+    ;; Format: "(icon title help action face prefix suffix)"
+    (setq dashboard-navigator-buttons
+          `(;; line1
+            ((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
+              "Diamond Git"
+              "Diamond homepage"
+              (lambda (&rest _) (browse-url "https://github.com/MacPapo/Diamond-Emacs")))
+             (,(all-the-icons-material "update" :height 1.1 :v-adjust -0.2)
+              "Update"
+              "Update Packages"
+              (lambda (&rest _) (auto-package-update-now)))
+             (,(all-the-icons-material "flag" :height 1.1 :v-adjust -0.2)
+              "Report bug"
+              "Report a bug"
+              (lambda (&rest _) (browse-url "https://github.com/MacPapo/Diamond-Emacs/issues/new")))
+             )
+            ))
+
+    (setq dashboard-footer-messages '("Vim! Ahahah, it’s only one of the many Emacs modes!  CIT. Master of the Masters"))
+    (setq dashboard-footer-icon (all-the-icons-octicon "flame"
+                                                       :height 1.1
+                                                       :v-adjust -0.02
+                                                       :face 'font-lock-keyword-face))
+    )
   :config
-  (dashboard-setup-startup-hook)
+  (
+   dashboard-setup-startup-hook)
   )
 
 (use-package winum
@@ -188,6 +183,13 @@
 (use-package vterm
   :ensure t)
 
+(use-package vterm-toggle
+  :ensure t
+  :defer t
+  :bind
+  ("C-c v" . vterm-toggle)
+  )
+
 (use-package eshell
   :ensure t
   :defer t
@@ -239,4 +241,10 @@
   :defer 2
   :ensure t
   :after pdf-view
+  )
+
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode)
   )

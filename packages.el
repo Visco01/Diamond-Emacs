@@ -70,6 +70,13 @@
   :ensure t
   )
 
+(use-package all-the-icons-dired
+  :ensure t
+  :defer t
+  :hook
+  (dired-mode . all-the-icons-dired-mode)
+  )
+
 (use-package solaire-mode
   :defer 0.5
   :ensure t
@@ -128,7 +135,6 @@
   :config
   (winum-mode)
   :bind (
-         ;; Select the window with Meta
          ("M-1" . winum-select-window-1)
          ("M-2" . winum-select-window-2)
          ("M-3" . winum-select-window-3)
@@ -171,13 +177,6 @@
   :defer 1
   :ensure t
   :bind ("C-M-z" . olivetti-mode)
-  )
-
-(use-package all-the-icons-dired
-  :ensure t
-  :defer t
-  :hook
-  (dired-mode . all-the-icons-dired-mode)
   )
 
 (use-package vterm

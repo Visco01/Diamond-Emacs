@@ -1,4 +1,3 @@
-
 ;; Diamond Emacs for Mac
 ;;
 ;; Diamond config started in 2022
@@ -28,4 +27,3 @@
 
 (setq modalities "~/.emacs.d/mode.el")
 (load-file modalities)
-

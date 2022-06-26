@@ -1,6 +1,6 @@
 ;; Diamond Emacs for Mac
 ;;
-;; Mastro config started in 2022
+;; Diamond config started in 2022
 
 (use-package auto-package-update
   :defer 0.2
@@ -41,23 +41,21 @@
       (expand-file-name  "var/eln-cache/" user-emacs-directory))))
   )
 
-(use-package vertico
+(use-package helm
   :ensure t
-  :demand t
-  :init
-  (vertico-mode)
-
-  ;; Different scroll margin
-  (setq vertico-scroll-margin 0)
-
-  ;; Show more candidates
-  ;; (setq vertico-count 20)
-
-  ;; Grow and shrink the Vertico minibuffer
-  ;; (setq vertico-resize t)
-
-  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  (setq vertico-cycle t)
+  :config
+  (require 'helm-config)
+  (setq helm-split-window-in-side-p t
+        helm-mode-to-line-cycle-in-source t)
+  (helm-ff-icon-mode 1)
+  (helm-mode 1)
+  :bind(
+        ("C-x b" . helm-buffers-list)
+        ("C-x r b" . helm-bookmarks)
+        ("C-x C-f" . helm-find-files)
+        ("C-s" . helm-occur)
+        ("M-x" . helm-M-x)
+        ("M-y" . helm-show-kill-ring))
   )
 
 (use-package savehist
@@ -77,10 +75,6 @@
   (dired-mode . all-the-icons-dired-mode)
   )
 
-(use-package all-the-icons-completion
-  :ensure t
-  )
-
 (use-package solaire-mode
   :defer 0.5
   :ensure t
@@ -89,53 +83,46 @@
 
 (use-package dashboard
   :ensure t
-  :demand t
   :init
   (add-hook 'dashboard-mode-hook (lambda () (setq show-trailing-whitespace nil)))
-  :custom
-  (dashboard-banner-logo-title "[D I A M O N D  E M A C S]")
-  (dashboard-startup-banner "~/.emacs.d/etc/banner/gitCat.png")
-  (dashboard-footer-messages '("Kept you waiting huh!"))
-  (dashboard-footer-icon (all-the-icons-wicon "meteor" :height 1.1 :v-adjust -0.05 :face 'font-lock-keyword-face))
-  (dashboard-center-content t)
-  (dashboard-set-heading-icons t)
-  (dashboard-set-file-icons t)
-  (dashboard-set-navigator t)
-  :config
-  (setq dashboard-navigator-buttons
-   `(
-     ;; Links
-     ((,(all-the-icons-octicon "octoface" :height 1.1 :v-adjust 0.0)
-       "Homepage"
-       "Browse homepage"
-       (lambda (&rest _) (browse-url "https://github.com/MacPapo/Diamond-Emacs")))
-      (,(all-the-icons-faicon "refresh" :height 1.1 :v-adjust 0.0)
-       "Update"
-       "Update Megumacs"
-       (lambda (&rest _) (update-packages))))
-      ((,(all-the-icons-faicon "flag" :height 1.1 :v-adjust 0.0)
-       "Report a BUG"
-       "Report"
-       (lambda (&rest _) (browse-url "https://github.com/MacPapo/Diamond-Emacs/issues/new"))))
-     ;; Empty line
-     (("" "\n" "" nil nil "" ""))
-     ;; Keybindings
-     ((,(all-the-icons-octicon "search" :height 0.9 :v-adjust -0.1)
-       " Find file" nil
-       (lambda (&rest _) (counsel-find-file)) nil "" "            C-x C-f"))
-     ;; ((,(all-the-icons-octicon "file-directory" :height 1.0 :v-adjust -0.1)
-     ;;   " Open project" nil
-     ;;   (lambda (&rest _) (counsel-projectile-switch-project)) nil "" "         SPC p p"))
+  (progn
+    (setq dashboard-items '((recents . 8)
+                            (bookmarks . 5)))
+    (setq dashboard-center-content t)
+    (setq dashboard-set-init-info t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-startup-banner "~/.emacs.d/etc/banner/gitCat.png")
+    (setq dashboard-banner-logo-title "[ D I A M O N D   E M A C S ]")
+    (setq dashboard-set-navigator t)
 
-     ((,(all-the-icons-octicon "three-bars" :height 1.1 :v-adjust -0.1)
-       " File explorer" nil
-       (lambda (&rest _) (counsel-projectile-switch-project)) nil "" "           C-x d"))
-     ((,(all-the-icons-octicon "settings" :height 0.9 :v-adjust -0.1)
-       " Open settings" nil
-       (lambda (&rest _) (open-config-file)) nil "" "        C-f C-P"))
-     ))
+    ;; Format: "(icon title help action face prefix suffix)"
+    (setq dashboard-navigator-buttons
+          `(;; line1
+            ((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
+              "Diamond Git"
+              "Diamond homepage"
+              (lambda (&rest _) (browse-url "https://github.com/MacPapo/Diamond-Emacs")))
+             (,(all-the-icons-material "update" :height 1.1 :v-adjust -0.2)
+              "Update"
+              "Update Packages"
+              (lambda (&rest _) (auto-package-update-now)))
+             (,(all-the-icons-material "flag" :height 1.1 :v-adjust -0.2)
+              "Report bug"
+              "Report a bug"
+              (lambda (&rest _) (browse-url "https://github.com/MacPapo/Diamond-Emacs/issues/new")))
+             )
+            ))
+
+    (setq dashboard-footer-messages '("Vim! Ahahah, it’s only one of the many Emacs modes!  CIT. Master of the Masters"))
+    (setq dashboard-footer-icon (all-the-icons-octicon "flame"
+                                                       :height 1.1
+                                                       :v-adjust -0.02
+                                                       :face 'font-lock-keyword-face))
+    )
   :config
-  (dashboard-setup-startup-hook)
+  (
+   dashboard-setup-startup-hook)
   )
 
 (use-package winum
@@ -146,7 +133,6 @@
   :config
   (winum-mode)
   :bind (
-         ;; Select the window with Meta
          ("M-1" . winum-select-window-1)
          ("M-2" . winum-select-window-2)
          ("M-3" . winum-select-window-3)
@@ -196,6 +182,7 @@
 
 (use-package vterm-toggle
   :ensure t
+  :defer t
   :bind
   ("C-c v" . vterm-toggle)
   )
@@ -237,31 +224,6 @@
     ("C-c e" . eshell-toggle)
     )
 
-(use-package mu4e
-  :ensure nil
-  :defer 5
-  :load-path "/opt/homebrew/Cellar/mu/1.6.11/share/emacs/site-lisp/mu4e/"
-  :config
-  (setq mu4e-update-interval 300)            ; Update interval (seconds)
-  (setq mu4e-index-cleanup t)                ; Cleanup after indexing
-  (setq mu4e-maildir "~/Documents/Mails")
-  (setq mu4e-attachment-dir "~/Downloads")
-  (setq mu4e-index-update-error-warning t)   ; Warnings during update
-  (setq mu4e-index-update-in-background t)   ; Background update
-  (setq mu4e-change-filenames-when-moving t) ; Needed for mbsync
-  (setq mu4e-get-mail-command "/opt/homebrew/bin/mbsync -a")
-  (setq mu4e-index-lazy-check nil)           ; Don't be lazy, index everything
-  (setq mu4e-confirm-quit nil)
-  (setq mu4e-headers-include-related t)
-  (setq mu4e-headers-skip-duplicates t)
-  (setq mu4e-sent-folder "/uni/sent")
-  (setq mu4e-trash-folder "/uni/trash")
-  (setq mu4e-drafts-folder "/uni/drafts")
-  (setq mu4e-maildir-shortcuts '(("/uni/inbox" . ?i)
-                                 ("/uni/archive". ?a)
-                                 ("/uni/sent" . ?s)))
-  )
-
 (use-package pdf-tools
   :defer 5
   :ensure t
@@ -275,4 +237,25 @@
 (use-package saveplace-pdf-view
   :defer 2
   :ensure t
-  :after pdf-view)
+  :after pdf-view
+  )
+
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode)
+  )
+
+(use-package treemacs
+  :ensure t
+  :bind
+  (
+   ("M-s" . treemacs-select-directory)
+   ("C-t" . treemacs)
+   ("C-c t" . treemacs-select-window))
+  :custom
+  (treemacs-git-mode 'deferred)
+  (treemacs-root-face t)
+  :config
+  (setq treemacs-is-never-other-window t)
+  )

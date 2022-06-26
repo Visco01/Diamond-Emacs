@@ -1,6 +1,6 @@
 ;; Diamond Emacs for Mac
 ;;
-;; MacPapo config started in 2022
+;; Diamond config started in 2022
 
 (setq gc-cons-threshold most-positive-fixnum)
 

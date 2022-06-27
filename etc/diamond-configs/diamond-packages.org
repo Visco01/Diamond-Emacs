@@ -1,4 +1,4 @@
-#+TITLE: Diamond Packages Enviroment
+#TITLE: Diamond Packages Enviroment
 #+PROPERTY: header-args :tangle ../../packages.el
 #+auto_tangle: t
 #+STARTUP: showeverything
@@ -130,7 +130,7 @@ Diamond Emacs want to remain clean during Emacs jurney
 
 *** All the icons
 
-Diamond Emacs use all-the-icons to feel cool
+Diamond Emacs uses all-the-icons to feel cool
 
 #+BEGIN_SRC elisp
 
@@ -140,7 +140,7 @@ Diamond Emacs use all-the-icons to feel cool
 
 #+END_SRC
 
-Diamond Emacs use icons for dired to simplify the viewing of files and folders
+Diamond Emacs uses icons for dired to simplify the viewing of files and folders
 
 #+BEGIN_SRC elisp
 
@@ -148,7 +148,8 @@ Diamond Emacs use icons for dired to simplify the viewing of files and folders
     :ensure t
     :defer t
     :hook
-    (dired-mode . all-the-icons-dired-mode)
+    (Dired-mode . all-the-icons-dired-mode)
+    (treemacs . all-the-icons-dired-mode)
     )
 
 #+END_SRC
@@ -305,10 +306,10 @@ Olivetti mode redefine the width of the screen and center the content in the mid
   (use-package olivetti
     :defer 1
     :ensure t
-    :bind ("C-M-z" . olivetti-mode)
+    :bind ("C-M-z" . Olivetti-Mode)
     )
 
-#+END_SRC
+#+end_SRC
 
 
 ** Terminals
@@ -409,7 +410,7 @@ Diamond Emacs offer PDF Tools to interact with pdfs
           pdf-view-use-imagemagick nil)
     )
 
-#+END_SRC
+#+end_SRC
 
 *** Saveplace PDF view
 
@@ -427,33 +428,58 @@ Diamond Emacs remembers the location where you last stopped to read the pdf
 
 
 ** Undo Tree
-
+ 
 It allows you to recover any past state of a buffer
 
 #+begin_src elisp
 
   (use-package undo-tree
     :ensure t
-    :config
+    :init
     (global-undo-tree-mode)
+    :config
+    (setq undo-tree-visualizer-select-right t)
     )
-
 #+end_src
 
 ** Treemacs integration
 
 #+begin_src elisp
-  (use-package treemacs
-    :ensure t
-    :bind
-    (
-     ("M-s" . treemacs-select-directory)
-     ("C-t" . treemacs)
-     ("C-c t" . treemacs-select-window))
-    :custom
-    (treemacs-git-mode 'deferred)
-    (treemacs-root-face t)
-    :config
-    (setq treemacs-is-never-other-window t)
-    )
+(use-package treemacs
+  :ensure t
+  :bind
+  (
+   ("M-s" . treemacs-select-directory)
+   ("C-x t" . treemacs)
+   ("C-c t" . treemacs-select-window))
+  :custom
+  (treemacs-git-mode 'deferred)
+  (treemacs-root-face t)
+  :config
+  (require 'treemacs-all-the-icons)
+  (treemacs-load-theme "all-the-icons")
+  (setq treemacs-is-never-other-window t)
+  )
+
+#+end_src
+
+
+** AutoCompletion mode
+
+#+begin_src elisp
+(use-package company
+  :ensure t
+  :defer t
+  :init (add-hook 'after-init-hook 'global-company-mode)
+  :config
+  (use-package company-irony :ensure t :defer t)
+  (setq company-idle-delay              nil
+	company-minimum-prefix-length   2
+	company-show-numbers            t
+	company-tooltip-limit           20
+	company-dabbrev-downcase        nil
+	company-backends                '((company-irony company-gtags))
+	)
+  :bind ("C-;" . company-complete-common)
+  )
 #+end_src

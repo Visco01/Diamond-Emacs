@@ -14,9 +14,15 @@
 *.DS_Store
 .DS_Store
 
-# Diamond Dogs
+# Diamond Emacs stuff
 var/
 var/*
 elpa/
 elpa/*
+transient/
+transient/*
+recentf
+places
+history
+.last-package-update-day
 etc/packages.el

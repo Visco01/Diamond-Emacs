@@ -72,7 +72,8 @@
   :ensure t
   :defer t
   :hook
-  (dired-mode . all-the-icons-dired-mode)
+  (Dired-mode . all-the-icons-dired-mode)
+  (treemacs . all-the-icons-dired-mode)
   )
 
 (use-package solaire-mode
@@ -174,7 +175,7 @@
 (use-package olivetti
   :defer 1
   :ensure t
-  :bind ("C-M-z" . olivetti-mode)
+  :bind ("C-M-z" . Olivetti-Mode)
   )
 
 (use-package vterm
@@ -242,8 +243,10 @@
 
 (use-package undo-tree
   :ensure t
-  :config
+  :init
   (global-undo-tree-mode)
+  :config
+  (setq undo-tree-visualizer-select-right t)
   )
 
 (use-package treemacs
@@ -251,11 +254,29 @@
   :bind
   (
    ("M-s" . treemacs-select-directory)
-   ("C-t" . treemacs)
+   ("C-x t" . treemacs)
    ("C-c t" . treemacs-select-window))
   :custom
   (treemacs-git-mode 'deferred)
   (treemacs-root-face t)
   :config
+  (require 'treemacs-all-the-icons)
+  (treemacs-load-theme "all-the-icons")
   (setq treemacs-is-never-other-window t)
+  )
+
+(use-package company
+  :ensure t
+  :defer t
+  :init (add-hook 'after-init-hook 'global-company-mode)
+  :config
+  (use-package company-irony :ensure t :defer t)
+  (setq company-idle-delay              nil
+	company-minimum-prefix-length   2
+	company-show-numbers            t
+	company-tooltip-limit           20
+	company-dabbrev-downcase        nil
+	company-backends                '((company-irony company-gtags))
+	)
+  :bind ("C-;" . company-complete-common)
   )

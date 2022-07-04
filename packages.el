@@ -82,6 +82,9 @@
   :hook (after-init . solaire-global-mode)
   )
 
+(use-package solarized-theme
+  :ensure t)
+
 (use-package dashboard
   :ensure t
   :init
@@ -93,7 +96,9 @@
     (setq dashboard-set-init-info t)
     (setq dashboard-set-file-icons t)
     (setq dashboard-set-heading-icons t)
-    (setq dashboard-startup-banner "~/.emacs.d/etc/banner/gitCat.png")
+    (setq bookmark-default-file "~/.emacs.d/bookmarks")
+    (setq bookmark-save-flag 1)
+    (setq dashboard-startup-banner "~/.emacs.d/etc/banner/the100.png")
     (setq dashboard-banner-logo-title "[ D I A M O N D   E M A C S ]")
     (setq dashboard-set-navigator t)
 
@@ -249,34 +254,43 @@
   (setq undo-tree-visualizer-select-right t)
   )
 
-(use-package treemacs
-  :ensure t
-  :bind
-  (
-   ("M-s" . treemacs-select-directory)
-   ("C-x t" . treemacs)
-   ("C-c t" . treemacs-select-window))
-  :custom
-  (treemacs-git-mode 'deferred)
-  (treemacs-root-face t)
-  :config
-  (require 'treemacs-all-the-icons)
-  (treemacs-load-theme "all-the-icons")
-  (setq treemacs-is-never-other-window t)
-  )
+;; (use-package treemacs
+;;   :ensure t
+;;   :defer t
+;;   :bind
+;;   (
+;;    ("M-s" . treemacs-select-directory)
+;;    ("C-x t" . treemacs)
+;;    ("M-ì" . treemacs-select-window))
+;;   :custom
+;;   (treemacs-git-mode 'deferred)
+;;   (treemacs-root-face t)
+;;   :config
+;;   (require 'treemacs-all-the-icons)
+;;   (treemacs-load-theme "all-the-icons")
+;;   (setq treemacs-is-never-other-window t)
+;;   )
 
-(use-package company
+(use-package dired-sidebar
+  :bind
+  (("C-x C-n" . dired-sidebar-toggle-sidebar))
   :ensure t
-  :defer t
-  :init (add-hook 'after-init-hook 'global-company-mode)
-  :config
-  (use-package company-irony :ensure t :defer t)
-  (setq company-idle-delay              nil
-	company-minimum-prefix-length   2
-	company-show-numbers            t
-	company-tooltip-limit           20
-	company-dabbrev-downcase        nil
-	company-backends                '((company-irony company-gtags))
-	)
-  :bind ("C-;" . company-complete-common)
-  )
+  :defer  t
+  :commands (dired-sidebar-toggle-sidebar)
+)
+
+;; (use-package company
+;;   :ensure t
+;;   :defer t
+;;   :init (add-hook 'after-init-hook 'global-company-mode)
+;;   :config
+;;   (use-package company-irony :ensure t :defer t)
+;;   (setq company-idle-delay              nil
+;; 	company-minimum-prefix-length   2
+;; 	company-show-numbers            t
+;; 	company-tooltip-limit           20
+;; 	company-dabbrev-downcase        nil
+;; 	company-backends                '((company-irony company-gtags))
+;; 	)
+;;   :bind ("C-;" . company-complete-common)
+;;   )

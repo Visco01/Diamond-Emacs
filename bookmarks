@@ -1,0 +1,15 @@
+;;;; Emacs Bookmark Format Version 1;;;; -*- coding: utf-8-emacs; mode: lisp-data -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("emacs dashboard config"
+ (filename . "~/.emacs.d/etc/diamond-configs/diamond-packages.org")
+ (front-context-string . "Diamond Dashboar")
+ (rear-context-string . "\n#+END_SRC\n\n*** ")
+ (position . 3076))
+("pieceMove in player.cpp"
+ (filename . "~/Code/cpp/Dama/src/player.cpp")
+ (front-context-string . "void Board::piec")
+ (rear-context-string . " return res;\n}\n\n")
+ (position . 7396))
+)

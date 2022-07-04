@@ -1,4 +1,4 @@
-;; Diamond Emacs for Mac
+;; Diamond Emacs for OpenBSD
 ;;
 ;; MacPapo config started in 2022
 
@@ -255,43 +255,3 @@
     :bind
     ("C-c e" . eshell-toggle)
     )
-
-(use-package mu4e
-  :ensure nil
-  :defer 5
-  :load-path "/opt/homebrew/Cellar/mu/1.6.11/share/emacs/site-lisp/mu4e/"
-  :config
-  (setq mu4e-update-interval 300)            ; Update interval (seconds)
-  (setq mu4e-index-cleanup t)                ; Cleanup after indexing
-  (setq mu4e-maildir "~/Documents/Mails")
-  (setq mu4e-attachment-dir "~/Downloads")
-  (setq mu4e-index-update-error-warning t)   ; Warnings during update
-  (setq mu4e-index-update-in-background t)   ; Background update
-  (setq mu4e-change-filenames-when-moving t) ; Needed for mbsync
-  (setq mu4e-get-mail-command "/opt/homebrew/bin/mbsync -a")
-  (setq mu4e-index-lazy-check nil)           ; Don't be lazy, index everything
-  (setq mu4e-confirm-quit nil)
-  (setq mu4e-headers-include-related t)
-  (setq mu4e-headers-skip-duplicates t)
-  (setq mu4e-sent-folder "/uni/sent")
-  (setq mu4e-trash-folder "/uni/trash")
-  (setq mu4e-drafts-folder "/uni/drafts")
-  (setq mu4e-maildir-shortcuts '(("/uni/inbox" . ?i)
-                                 ("/uni/archive". ?a)
-                                 ("/uni/sent" . ?s)))
-  )
-
-(use-package pdf-tools
-  :ensure t
-  :defer t
-  :magic ("%PDF" . pdf-view-mode)
-  :config   (pdf-tools-install)
-  (setq-default pdf-view-display-size 'fit-page)
-  (setq pdf-view-use-scaling t
-        pdf-view-use-imagemagick nil)
-  )
-
-(use-package saveplace-pdf-view
-  :ensure t
-  :defer t
-  :after pdf-view)

@@ -1,11 +1,15 @@
-;; Diamond Emacs for Mac
+;; Diamond Emacs for OpenBSD
 ;;
 ;; MacPapo config started in 2022
+
+(setq  x-meta-keysym 'super
+       x-super-keysym 'meta)
 
 (when window-system
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
   (tooltip-mode 0)
+  (menu-bar-mode 0)
   )
 
 (setq-default
@@ -56,7 +60,6 @@
 (electric-indent-mode t)                          ; Auto indentation
 (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
 (global-subword-mode 1)                           ; Iterate through CamelCase words
-(menu-bar-mode 1)                                 ; Enable the menu bar for macOS Full Screen
 (mouse-avoidance-mode 'jump)                      ; Avoid collision of mouse with point
 (put 'downcase-region 'disabled nil)              ; Enable downcase-region
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
@@ -111,7 +114,6 @@
 (electric-indent-mode t)                          ; Auto indentation
 (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
 (global-subword-mode 1)                           ; Iterate through CamelCase words
-(menu-bar-mode 1)                                 ; Enable the menu bar for macOS Full Screen
 (mouse-avoidance-mode 'jump)                      ; Avoid collision of mouse with point
 (put 'downcase-region 'disabled nil)              ; Enable downcase-region
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
@@ -184,38 +186,15 @@
 
 (setq show-paren-style 'mixed)
 
-(setq modus-themes-mode-line '(borderless)
-      )
-
-(setq modus-themes-region '(bg-only))
-
-(setq modus-themes-completions 'opinionated)
-
-(setq modus-themes-completions
-        '((matches . (extrabold background intense))
-          (selection . (semibold accented intense))
-          (popup . (accented))))
-
-(setq modus-themes-bold-constructs t)
-(setq modus-themes-italic-constructs t)
-(setq modus-themes-paren-match '(bold intense))
-(setq modus-themes-hl-line t)
-(setq modus-themes-prompts '(bold italic)
-      )
-
-(setq modus-themes-headings
-      '((1 . (rainbow background 1.4))
-        (2 . (rainbow background 1.3))
-        (3 . (rainbow bold 1.2))
-        (4 . (semilight 1.1))))
-
-(setq modus-themes-org-blocks nil)
-(setq modus-themes-scale-headings t)
-
-(load-theme 'modus-operandi t)
+(set-background-color "ivory")
 
 (when (member "Iosevka" (font-family-list))
-  (set-frame-font "Iosevka-16" t t))
+  (set-frame-font "Iosevka-13" t t))
 
-(if (fboundp 'mac-auto-operator-composition-mode)
-    (mac-auto-operator-composition-mode))
+(defun doas-find-file (file)
+  "Open FILE as root."
+  (interactive
+   (list (read-file-name "Open as root: ")))
+  (find-file (if (file-writable-p file)
+                 file
+               (concat "/doas:root@localhost:" file))))

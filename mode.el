@@ -1,4 +1,4 @@
-;; Diamond Emacs for Mac
+;; Diamond Emacs for OpenBSD
 ;;
 ;; MacPapo config started in 2022
 

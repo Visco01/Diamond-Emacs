@@ -245,3 +245,15 @@
   :config
   (global-undo-tree-mode)
   )
+
+(use-package markdown-mode
+  :ensure t
+  :defer 1
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
+
+
+(use-package markdown-preview-mode
+  :ensure t
+  :defer 1
+  :bind (("C-c m o" . markdown-preview-mode)))
